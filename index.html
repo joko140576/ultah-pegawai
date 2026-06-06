@@ -683,14 +683,9 @@ tbody td:first-child { color: var(--text); font-weight: 500; }
 <div id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════════
-// CONFIG & STATE
-// ════════════════════════════════════════════════════
-// ════════════════════════════════════════════════════
-// KONFIGURASI — Ganti URL di bawah ini dengan URL
-// deployment Google Apps Script Anda
-// ════════════════════════════════════════════════════
-const API_URL = "https://script.google.com/macros/s/AKfycbwnX6JwI7Iw58jZ_wAcX6vGIdXIGljTVg-DYFZN9Eglp-PvqIZ62jqwteDUNhhVCoqR/exec;
+// KONFIGURASI: Ganti URL di bawah dengan URL deployment Google Apps Script Anda
+// Cara: Deploy > New deployment > Web App > copy URL
+const API_URL = "https://script.google.com/macros/s/AKfycbwnX6JwI7Iw58jZ_wAcX6vGIdXIGljTVg-DYFZN9Eglp-PvqIZ62jqwteDUNhhVCoqR/exec";
 
 let allContacts = [];
 let allLogs = [];
@@ -708,7 +703,7 @@ function checkUrlConfig() {
     const banner = document.createElement('div');
     banner.id = 'url-banner';
     banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(90deg,#ff6b00,#ffaa00);color:#000;text-align:center;padding:10px 16px;font-size:13px;font-weight:600;font-family:Arial,sans-serif;';
-    banner.innerHTML = '⚠️ <strong>API_URL belum dikonfigurasi!</strong> Buka file dashboard.html, cari <code style="background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;">const API_URL</code> dan ganti dengan URL deployment Apps Script Anda. &nbsp;<button onclick="this.parentElement.remove()" style="background:rgba(0,0,0,0.2);border:none;color:#000;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:bold;">✕</button>';
+    banner.innerHTML = `⚠️ <strong>API_URL belum dikonfigurasi!</strong> Buka <code>dashboard.html</code>, cari <code>const API_URL</code> dan ganti dengan URL deployment Apps Script Anda. <button onclick="this.parentElement.remove()" style="background:rgba(0,0,0,0.2);border:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:bold;">✕</button>`;
     document.body.prepend(banner);
   }
 }
@@ -733,7 +728,7 @@ function navigate(page) {
 // ════════════════════════════════════════════════════
 function apiCall(params) {
   return new Promise((resolve, reject) => {
-    const isPlaceholder = API_URL.includes('PASTE_DEPLOYMENT_URL_DISINI');
+    const isPlaceholder = API_URL.includes('https://script.google.com/macros/s/AKfycbwnX6JwI7Iw58jZ_wAcX6vGIdXIGljTVg-DYFZN9Eglp-PvqIZ62jqwteDUNhhVCoqR/exec');
     if (isPlaceholder) {
       // Tampilkan data demo — ganti API_URL di baris const di atas
       resolve(getDemoData(params.action));
