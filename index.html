@@ -685,7 +685,7 @@ tbody td:first-child { color: var(--text); font-weight: 500; }
 <script>
 // KONFIGURASI: Ganti URL di bawah dengan URL deployment Google Apps Script Anda
 // Cara: Deploy > New deployment > Web App > copy URL
-const API_URL = "https://script.google.com/macros/s/AKfycbwnX6JwI7Iw58jZ_wAcX6vGIdXIGljTVg-DYFZN9Eglp-PvqIZ62jqwteDUNhhVCoqR/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyfsIy1rKnJTOQNQfR1AWx_1Hgrs2lfNqAzMMJ1Lhdtfswv5KFucZWDwJ4MLuyAs4ij/exec";
 
 let allContacts = [];
 let allLogs = [];
@@ -699,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function checkUrlConfig() {
-  if (API_URL.includes('https://script.google.com/macros/s/AKfycbwnX6JwI7Iw58jZ_wAcX6vGIdXIGljTVg-DYFZN9Eglp-PvqIZ62jqwteDUNhhVCoqR/exec')) {
+  if (API_URL.includes('https://script.google.com/macros/s/AKfycbyfsIy1rKnJTOQNQfR1AWx_1Hgrs2lfNqAzMMJ1Lhdtfswv5KFucZWDwJ4MLuyAs4ij/exec')) {
     const banner = document.createElement('div');
     banner.id = 'url-banner';
     banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(90deg,#ff6b00,#ffaa00);color:#000;text-align:center;padding:10px 16px;font-size:13px;font-weight:600;font-family:Arial,sans-serif;';
@@ -728,7 +728,7 @@ function navigate(page) {
 // ════════════════════════════════════════════════════
 function apiCall(params) {
   return new Promise((resolve, reject) => {
-    const isPlaceholder = API_URL.includes('https://script.google.com/macros/s/AKfycbwnX6JwI7Iw58jZ_wAcX6vGIdXIGljTVg-DYFZN9Eglp-PvqIZ62jqwteDUNhhVCoqR/exec');
+    const isPlaceholder = API_URL.includes('https://script.google.com/macros/s/AKfycbyfsIy1rKnJTOQNQfR1AWx_1Hgrs2lfNqAzMMJ1Lhdtfswv5KFucZWDwJ4MLuyAs4ij/exec');
     if (isPlaceholder) {
       // Tampilkan data demo — ganti API_URL di baris const di atas
       resolve(getDemoData(params.action));
