@@ -44,74 +44,6 @@
     .ambient-2 { width: 400px; height: 400px; background: rgba(236,72,153,0.08); bottom: 200px; right: -50px; }
     .ambient-3 { width: 300px; height: 300px; background: rgba(245,158,11,0.06); top: 50%; left: 40%; }
 
-    /* SETUP SCREEN */
-    .setup-screen {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 9000;
-      align-items: center;
-      justify-content: center;
-    }
-    .setup-screen.show { display: flex; }
-    .setup-box {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 48px;
-      max-width: 520px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5), var(--glow);
-    }
-    .setup-icon { font-size: 56px; margin-bottom: 20px; }
-    .setup-box h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 26px;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
-    .setup-box p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 28px; }
-    .setup-box p code {
-      background: var(--bg3);
-      padding: 2px 8px;
-      border-radius: 5px;
-      color: var(--primary-light);
-      font-size: 12px;
-    }
-    .setup-input-wrap { position: relative; margin-bottom: 16px; }
-    .setup-input {
-      width: 100%;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 18px;
-      color: var(--text);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 13px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .setup-input:focus { border-color: var(--primary); }
-    .setup-input::placeholder { color: var(--muted); }
-    .btn-setup {
-      width: 100%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border: none;
-      padding: 14px;
-      border-radius: 12px;
-      color: white;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 20px rgba(91,60,245,0.4);
-    }
-    .btn-setup:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(91,60,245,0.5); }
-    .setup-hint { margin-top: 16px; font-size: 12px; color: var(--muted); line-height: 1.6; }
-
     /* TOPBAR */
     .topbar {
       position: sticky; top: 0; z-index: 10;
@@ -282,46 +214,18 @@
 <div class="ambient ambient-2"></div>
 <div class="ambient ambient-3"></div>
 
-<!-- SETUP SCREEN: muncul pertama kali atau jika URL belum diset -->
-<div class="setup-screen" id="setupScreen">
-  <div class="setup-box">
-    <div class="setup-icon">⚙️</div>
-    <h2>Konfigurasi API</h2>
-    <p>
-      Masukkan <strong>URL Deployment</strong> Google Apps Script Anda.<br>
-      URL ini disimpan di browser Anda dan <strong>tidak akan ditanyakan lagi</strong>.
-    </p>
-    <div class="setup-input-wrap">
-      <input
-        class="setup-input"
-        id="inputUrl"
-        type="url"
-        placeholder="https://script.google.com/macros/s/XXXX.../exec"
-        autocomplete="off"
-        spellcheck="false"
-      />
-    </div>
-    <button class="btn-setup" onclick="simpanUrl()">✅ Simpan & Buka Dashboard</button>
-    <div class="setup-hint">
-      Cara mendapatkan URL:<br>
-      Apps Script → <code>Deploy</code> → <code>New Deployment</code> → <code>Web App</code> → Copy URL
-    </div>
-  </div>
-</div>
-
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="logo">
     <div class="logo-icon">🎂</div>
     <div class="logo-text">
       <h1>Birthday Dashboard</h1>
-      <span>Sistem Ulang Tahun Pegawai</span>
+      <span>PT SSI - Divisi HCC</span>
     </div>
   </div>
   <div class="topbar-right">
     <div class="date-pill">📅 <span id="tanggalHariIni">—</span></div>
     <button class="btn-icon" onclick="loadData()" title="Refresh">🔄 Refresh</button>
-    <button class="btn-icon" onclick="gantiUrl()" title="Ubah API URL">🔗 API</button>
     <button class="btn-send" id="btnKirim" onclick="kirimEmailManual()">
       📧 <span>Kirim Email Sekarang</span>
     </button>
@@ -427,56 +331,24 @@
 
 <script>
   // ============================================================
-  // MANAJEMEN URL — disimpan di localStorage
+  // URL GAS - HARDCODED
   // ============================================================
-  const LS_KEY = "birthday_api_url";
+  const API_URL = "https://script.google.com/macros/s/AKfycbzThQDo1PgmnuYNz4c_M6TqzWSjRZieCwybpZ-Yy0uDTG-08lITAUB8Wky3WQjMPwhM/exec";
 
-  function getUrl() {
-    return localStorage.getItem(LS_KEY) || "";
-  }
-
-  function simpanUrl() {
-    const input = document.getElementById("inputUrl").value.trim();
-    if (!input.startsWith("https://script.google.com/macros/s/")) {
-      alert("❌ URL tidak valid!\nHarus dimulai dengan:\nhttps://script.google.com/macros/s/");
-      return;
-    }
-    localStorage.setItem(LS_KEY, input);
-    document.getElementById("setupScreen").classList.remove("show");
-    loadData();
-  }
-
-  function gantiUrl() {
-    const current = getUrl();
-    document.getElementById("inputUrl").value = current;
-    document.getElementById("setupScreen").classList.add("show");
-  }
-
-  // Cek saat pertama buka
+  // ============================================================
+  // INIT
+  // ============================================================
   window.addEventListener("DOMContentLoaded", () => {
-    if (!getUrl()) {
-      document.getElementById("setupScreen").classList.add("show");
-    } else {
-      loadData();
-    }
-  });
-
-  // Enter di input = simpan
-  document.addEventListener("keydown", e => {
-    if (e.key === "Enter" && document.getElementById("setupScreen").classList.contains("show")) {
-      simpanUrl();
-    }
+    loadData();
   });
 
   // ============================================================
   // LOAD DATA
   // ============================================================
   async function loadData() {
-    const url = getUrl();
-    if (!url) return;
     showLoading("Mengambil data dari spreadsheet...");
     try {
-      const res = await fetch(`${url}?action=getData`);
+      const res = await fetch(`${API_URL}?action=getData`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
@@ -574,13 +446,11 @@
   // KIRIM MANUAL
   // ============================================================
   async function kirimEmailManual() {
-    const url = getUrl();
-    if (!url) { gantiUrl(); return; }
     const btn = document.getElementById("btnKirim");
     btn.disabled = true;
     showLoading("Mengirim email ulang tahun...");
     try {
-      const res = await fetch(`${url}?action=kirimManual`);
+      const res = await fetch(`${API_URL}?action=kirimManual`);
       const data = await res.json();
       hideLoading();
       showToast(data.sukses ? "🎉 " + data.pesan : "❌ " + data.pesan, data.sukses ? "success" : "error");
@@ -621,7 +491,7 @@
   }
 
   // Auto-refresh setiap 5 menit
-  setInterval(() => { if (getUrl()) loadData(); }, 5 * 60 * 1000);
+  setInterval(loadData, 5 * 60 * 1000);
 </script>
 </body>
 </html>
